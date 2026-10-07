@@ -89,6 +89,39 @@ echo "========================================"
 
 sudo service xrdp restart
 
+if [ ! -f /etc/apt/sources.list.d/microsoft-edge.sources ]; then
+
+sudo apt update && sudo apt upgrade
+sudo apt install curl ca-certificates gpg -y
+
+curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor --yes -o /usr/share/keyrings/microsoft-edge.gpg
+printf '%s\n' \
+'Types: deb' \
+'URIs: https://packages.microsoft.com/repos/edge' \
+'Suites: stable' \
+'Components: main' \
+'Signed-By: /usr/share/keyrings/microsoft-edge.gpg' \
+'Architectures: amd64' |
+sudo tee /etc/apt/sources.list.d/microsoft-edge.sources > /dev/null
+
+curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor --yes -o /usr/share/keyrings/google-chrome.gpg
+printf '%s\n' \
+'Types: deb' \
+'URIs: https://dl.google.com/linux/chrome/deb/' \
+'Suites: stable' \
+'Components: main' \
+'Architectures: amd64' \
+'Signed-By: /usr/share/keyrings/google-chrome.gpg' \
+| sudo tee /etc/apt/sources.list.d/google-chrome.sources > /dev/null
+
+
+sudo apt update
+apt-cache policy microsoft-edge-stable
+sudo apt install microsoft-edge-stable -y
+
+apt-cache policy google-chrome-stable
+sudo apt install google-chrome-stable -y
+fi
 
 echo
 echo "========================================"
