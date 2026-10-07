@@ -105,6 +105,31 @@ echo "========================================"
 
 sudo ss -lntp | grep ':3389' || true
 
+echo
+echo "Configuring Microsoft Edge for Codespaces"
+
+sudo tee /usr/local/bin/edge-codespaces > /dev/null <<'EOF'
+#!/usr/bin/env bash
+
+exec /usr/bin/microsoft-edge-stable \
+    --no-sandbox \
+    --disable-dev-shm-usage \
+    "$@"
+EOF
+
+sudo chmod +x /usr/local/bin/edge-codespaces
+
+mkdir -p "${HOME}/.local/share/applications"
+
+if [ -f /usr/share/applications/microsoft-edge.desktop ]; then
+
+    cp /usr/share/applications/microsoft-edge.desktop \
+       "${HOME}/.local/share/applications/microsoft-edge.desktop"
+
+    sed -i \
+        's|/usr/bin/microsoft-edge-stable|/usr/local/bin/edge-codespaces|g' \
+        "${HOME}/.local/share/applications/microsoft-edge.desktop"
+fi
 
 echo
 echo "========================================"
