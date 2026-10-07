@@ -1,0 +1,32 @@
+{
+    "name": "Ubuntu XFCE XRDP Desktop",
+
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+
+    "remoteUser": "vscode",
+
+    "postCreateCommand": "bash .devcontainer/setup_xrdp.sh",
+
+    "postStartCommand": "sudo service xrdp start >/dev/null 2>&1 || sudo service xrdp restart",
+
+    "forwardPorts": [
+        3389
+    ],
+
+    "portsAttributes": {
+        "3389": {
+            "label": "XRDP Desktop",
+            "onAutoForward": "silent"
+        }
+    },
+
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash"
+            }
+        }
+    }
+}
