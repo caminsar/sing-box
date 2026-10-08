@@ -91,7 +91,7 @@ sudo service xrdp restart
 
 if [ ! -f /etc/apt/sources.list.d/microsoft-edge.sources ]; then
 
-sudo apt update && sudo apt upgrade
+sudo apt update && sudo apt upgrade -y
 sudo apt install curl ca-certificates gpg -y
 
 curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor --yes -o /usr/share/keyrings/microsoft-edge.gpg
